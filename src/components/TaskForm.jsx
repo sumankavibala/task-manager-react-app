@@ -1,9 +1,12 @@
 //form to add tasks
 
 import { useState } from "react";
+import { useTaskStore } from "../store/taskStore";
 
 export function TaskForm({onAddTask}) {
   const [title, setTitle] = useState("");
+
+  const addTask = useTaskStore((state)=> state.addTask);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +18,7 @@ export function TaskForm({onAddTask}) {
       status: "pending",
     };
 
-    onAddTask(newTask);
+    addTask(newTask);
     setTitle("");
   }
 

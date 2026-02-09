@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import OptimizedTaskItem from "./OptimizedTaskItem";
 
 export function TaskList({ tasks }) {
-  console.log('tasks--->>', tasks);
+  // console.log('tasks--->>', tasks);
   return (
     <div>
       <h3>Tasks</h3>

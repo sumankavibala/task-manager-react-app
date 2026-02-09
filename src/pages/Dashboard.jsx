@@ -9,11 +9,14 @@ import TaskReducerDemo from "../components/TaskReducerDemo";
 import { TaskContext } from "../context/TaskContext";
 import MemoDemo from "../components/MemoDemo";
 import CallbackDemo from "../components/CallBackDemo";
+import { useTaskStore } from "../store/taskStore";
 // import { LoginForm } from "../components/loginForm";
 
 
 export function Dashboard() {
-  const {tasks, setTasks} = useContext(TaskContext);
+  // const {tasks, setTasks} = useContext(TaskContext);
+
+  const { tasks, setTasks, addTask } = useTaskStore();
 
   useEffect(()=>{
     fetch("http://localhost:4000/api/tasks")
@@ -22,9 +25,9 @@ export function Dashboard() {
     .catch(err => console.error("Error fetching tasks:",err))
   }, [setTasks]);
 
-  const addTasks = (task) => {
-    setTasks(prev => [...prev, task]);
-  }
+  // const addTasks = (task) => {
+  //   setTasks(prev => [...prev, task]);
+  // }
 
   return (
     <div>
@@ -34,7 +37,7 @@ export function Dashboard() {
       <TaskReducerDemo />
       <CallbackDemo />
       <MemoDemo />
-      <TaskForm onAddTask={addTasks}/>
+      <TaskForm onAddTask={addTask}/>
       <TaskList tasks={tasks} />
     </div>
   )
