@@ -3,20 +3,76 @@ import { create } from 'zustand';
 export const useTaskStore = create((set) => ({
   tasks: [],
 
-  //Actions
-  setTasks: (tasks) => set({ tasks }),
+  // //Actions
+  // setTasks: (tasks) => set({ tasks }),
 
-  addtask: (task) => set((state) => ({ 
-    tasks: [...state.tasks, task] 
-  })),
+  // addtask: (task) => set((state) => ({ 
+  //   tasks: [...state.tasks, task] 
+  // })),
 
-  removeTask: (id) => set((state) =>
-  ({ tasks: state.tasks.filter((t)=> t.id !== id) }
-  )),
+  // removeTask: (id) => set((state) =>
+  // ({ tasks: state.tasks.filter((t)=> t.id !== id) }
+  // )),
 
-  updateTask: (id, updatedTask)=> set((state)=>({
-    tasks: state.tasks.map((t)=>
-      t.id === id ? { ...t, ...updatedTask } : t
-    )
-  })), 
+  // updateTask: (id, updatedTask)=> set((state)=>({
+  //   tasks: state.tasks.map((t)=>
+  //     t.id === id ? { ...t, ...updatedTask } : t
+  //   )
+  // })), 
+
+
+  //Fetch tasks from backend
+  fetchTasks: async() => {
+    try {
+      const res = await fetch('http://localhost:4000/api/tasks');
+      const data = res.json();
+      set({tasks: data});
+    } catch (error) {
+      console.error('Error fetching tasks:',error)
+    }
+  },
+
+  //Add task to backend
+  addTask: async(task) => {
+    try {
+      const res = await fetch('http://localhost:4000/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(task),
+      });
+      const newTask = await res.json();
+      set((state) => ({tasks: [...state.task, newTask]}));
+    } catch (error) {
+      console.error("Error adding task:",error);
+    };
+  },
+
+  updateTask: async(id, updatedTask) => {
+    try {
+      const res = fetch(`http://localhost:4000/api/tasks/${id}`,{
+        method: 'PUT',
+        header: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updatedTask)
+      });
+      const data = res.json();
+      set((state) => ({
+        tasks: state.tasks.map((i)=> (i.id === id ? data : i))
+      }));
+    } catch (error) {
+      console.error('Error updating task:',error);
+    }
+  },
+
+  removeTask: async(id) => {
+    try {
+      const res = fetch(`http://localhost:4000/api/tasks/${id}`,{
+        method: 'DELETE',
+      });
+      set((state)=> ({
+        tasks: state.tasks.filter((t)=> t.id !== id)
+      }));
+    } catch (error) {
+      console.error('Error deleting task:',error)
+    }
+  }
 }));

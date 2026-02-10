@@ -16,14 +16,16 @@ import { useTaskStore } from "../store/taskStore";
 export function Dashboard() {
   // const {tasks, setTasks} = useContext(TaskContext);
 
-  const { tasks, setTasks, addTask } = useTaskStore();
+  // const { tasks, setTasks, addTask } = useTaskStore();
+  const { tasks, fetchTasks, addTask, updateTask, removeTask } = useTaskStore();
 
   useEffect(()=>{
-    fetch("http://localhost:4000/api/tasks")
-    .then(res => res.json())
-    .then(data => setTasks(data))
-    .catch(err => console.error("Error fetching tasks:",err))
-  }, [setTasks]);
+    // fetch("http://localhost:4000/api/tasks")
+    // .then(res => res.json())
+    // .then(data => setTasks(data))
+    // .catch(err => console.error("Error fetching tasks:",err))
+    fetchTasks();
+  }, [fetchTasks]);
 
   // const addTasks = (task) => {
   //   setTasks(prev => [...prev, task]);
@@ -38,7 +40,7 @@ export function Dashboard() {
       <CallbackDemo />
       <MemoDemo />
       <TaskForm onAddTask={addTask}/>
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} onUpdateTask={updateTask} onDeleteTask={removeTask} />
     </div>
   )
 }

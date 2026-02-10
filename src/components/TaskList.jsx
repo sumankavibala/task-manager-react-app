@@ -3,7 +3,7 @@
 import { Link } from "react-router-dom";
 import OptimizedTaskItem from "./OptimizedTaskItem";
 
-export function TaskList({ tasks }) {
+export function TaskList({ tasks, onUpdateTask, onDeleteTask  }) {
   // console.log('tasks--->>', tasks);
   return (
     <div>
@@ -14,6 +14,8 @@ export function TaskList({ tasks }) {
             <Link to={`/dashboard/${task.id}`}>
               <OptimizedTaskItem task={task} />
             </Link>
+            <button onClick={()=> onUpdateTask(task.id, {status: "Done"})}>Mark Done</button>
+            <button onClick={()=> onDeleteTask(task.id)}>Delete</button>
           </li>
         ))}
       </ul>

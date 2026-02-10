@@ -6,19 +6,15 @@ import { useTaskStore } from "../store/taskStore";
 export function TaskForm({onAddTask}) {
   const [title, setTitle] = useState("");
 
-  const addTask = useTaskStore((state)=> state.addTask);
+  // const addTask = useTaskStore((state)=> state.addTask);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!title.trim()) return;
     
-    const newTask = {
-      id: Date.now(), // temporary ID until backend integration
-      title,
-      status: "pending",
-    };
+    const newTask = { title, status: "pending" };
 
-    addTask(newTask);
+    onAddTask(newTask);
     setTitle("");
   }
 
