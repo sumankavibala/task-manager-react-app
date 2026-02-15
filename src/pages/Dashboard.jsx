@@ -10,26 +10,20 @@ import { TaskContext } from "../context/TaskContext";
 import MemoDemo from "../components/MemoDemo";
 import CallbackDemo from "../components/CallBackDemo";
 import { useTaskStore } from "../store/taskStore";
+import useFetch from "../hooks/useFetch";
 // import { LoginForm } from "../components/loginForm";
 
 
 export function Dashboard() {
-  // const {tasks, setTasks} = useContext(TaskContext);
+const { data, loading, error } = useFetch('http://localhost:4000/api/tasks');
+const { tasks, addTask, updateTask, removeTask } = useTaskStore();
 
-  // const { tasks, setTasks, addTask } = useTaskStore();
-  const { tasks, fetchTasks, addTask, updateTask, removeTask } = useTaskStore();
-console.log('tasks in dashbpard--->>',Array.isArray(tasks))
-  useEffect(()=>{
-    // fetch("http://localhost:4000/api/tasks")
-    // .then(res => res.json())
-    // .then(data => setTasks(data))
-    // .catch(err => console.error("Error fetching tasks:",err))
-    fetchTasks();
-  }, [fetchTasks]);
+useEffect(() => {
+  if (data && tasks.length === 0) {
+    useTaskStore.getState().setTasks(data);
+  }
+}, [data, tasks.length]);
 
-  // const addTasks = (task) => {
-  //   setTasks(prev => [...prev, task]);
-  // }
 
   return (
     <div>
