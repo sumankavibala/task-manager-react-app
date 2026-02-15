@@ -18,7 +18,7 @@ export function Dashboard() {
 
   // const { tasks, setTasks, addTask } = useTaskStore();
   const { tasks, fetchTasks, addTask, updateTask, removeTask } = useTaskStore();
-
+console.log('tasks in dashbpard--->>',Array.isArray(tasks))
   useEffect(()=>{
     // fetch("http://localhost:4000/api/tasks")
     // .then(res => res.json())
@@ -35,10 +35,10 @@ export function Dashboard() {
     <div>
       <h2>Dashboard</h2>
       <ClockClass />
-      <FocusInput />
+      {/* <FocusInput />
       <TaskReducerDemo />
       <CallbackDemo />
-      <MemoDemo />
+      <MemoDemo /> */}
       <TaskForm onAddTask={addTask}/>
       <TaskList tasks={tasks} onUpdateTask={updateTask} onDeleteTask={removeTask} />
     </div>

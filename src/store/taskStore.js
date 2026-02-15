@@ -25,7 +25,7 @@ export const useTaskStore = create((set) => ({
   fetchTasks: async() => {
     try {
       const res = await fetch('http://localhost:4000/api/tasks');
-      const data = res.json();
+      const data = await res.json();
       set({tasks: data});
     } catch (error) {
       console.error('Error fetching tasks:',error)
@@ -41,7 +41,7 @@ export const useTaskStore = create((set) => ({
         body: JSON.stringify(task),
       });
       const newTask = await res.json();
-      set((state) => ({tasks: [...state.task, newTask]}));
+      set((state) => ({tasks: [...state.tasks, newTask]}));
     } catch (error) {
       console.error("Error adding task:",error);
     };
@@ -49,12 +49,12 @@ export const useTaskStore = create((set) => ({
 
   updateTask: async(id, updatedTask) => {
     try {
-      const res = fetch(`http://localhost:4000/api/tasks/${id}`,{
+      const res = await fetch(`http://localhost:4000/api/tasks/${id}`,{
         method: 'PUT',
-        header: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(updatedTask)
       });
-      const data = res.json();
+      const data = await res.json();
       set((state) => ({
         tasks: state.tasks.map((i)=> (i.id === id ? data : i))
       }));
@@ -65,7 +65,7 @@ export const useTaskStore = create((set) => ({
 
   removeTask: async(id) => {
     try {
-      const res = fetch(`http://localhost:4000/api/tasks/${id}`,{
+      const res = await fetch(`http://localhost:4000/api/tasks/${id}`,{
         method: 'DELETE',
       });
       set((state)=> ({
